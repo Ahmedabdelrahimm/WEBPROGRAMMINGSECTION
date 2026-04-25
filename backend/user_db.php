@@ -23,9 +23,6 @@ require 'db.php';
 function getUserById($id) {
     global $connection;
     
-    // Sanitize the ID to prevent SQL injection
-    $id = mysqli_real_escape_string($connection, $id);
-    
     // SELECT user information WHERE id matches
     $query = "SELECT id, name, email, role FROM users WHERE id = '$id' LIMIT 1";
     
@@ -56,10 +53,8 @@ function getUserById($id) {
 function updateUser($id, $name, $email, $password = '') {
     global $connection;
     
-    // Sanitize inputs to prevent SQL injection
-    $id = mysqli_real_escape_string($connection, $id);
-    $name = mysqli_real_escape_string($connection, $name);
-    $email = mysqli_real_escape_string($connection, $email);
+    // Build the UPDATE query
+
     
     // Start with name and email in the UPDATE query
     $query = "UPDATE users SET name = '$name', email = '$email'";
@@ -68,7 +63,6 @@ function updateUser($id, $name, $email, $password = '') {
     if (!empty($password)) {
         // Store the password as plain text (not hashed)
         // NOTE: In production, you should ALWAYS hash passwords for security!
-        $password = mysqli_real_escape_string($connection, $password);
         // Add password to the UPDATE query
         $query .= ", password = '$password'";
     }

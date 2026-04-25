@@ -1,45 +1,26 @@
 <?php
 /**
- * WEEK 2 - LOGIN PAGE
+ * LOGIN PAGE - GATEWAY
  * 
- * This page displays a login form and handles user login.
- * When user submits the form, it calls loginUser() from auth.php
- * If successful, redirects to products page. If failed, shows error message.
+ * This page displays the login form.
+ * Form submissions are handled by backend/login_handler.php
  */
 
 require '../backend/auth.php';
 
-// Initialize error message variable
-$error = '';
-
-// Check if form was submitted (check if $_POST array contains data)
-if ($_POST) {
-    // Get email and password from the form
-    $email = isset($_POST['email']) ? $_POST['email'] : '';
-    $password = isset($_POST['password']) ? $_POST['password'] : '';
-    
-    // Call loginUser() to authenticate
-    if (loginUser($email, $password)) {
-        // Login successful! Check if user is admin
-        if (isAdmin()) {
-            // Redirect admin to admin dashboard
-            header("Location: ../admin/index.php");
-        } else {
-            // Redirect regular user to products page
-            header("Location: products.php");
-        }
-        exit;
-    } else {
-        // Login failed - set error message to display to user
-        $error = "Invalid email or password";
-    }
-}
-
-// If already logged in, redirect to products page
+// Redirect if already logged in
 if (isLoggedIn()) {
-    header("Location: products.php");
+    if (isAdmin()) {
+        header("Location: ../admin/index.php");
+    } else {
+        header("Location: products.php");
+    }
     exit;
 }
+
+// Get error message from session if exists
+$error = $_SESSION['login_error'] ?? '';
+unset($_SESSION['login_error']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,8 +57,8 @@ if (isLoggedIn()) {
                     </div>
                 <?php endif; ?>
 
-                <!-- LOGIN FORM -->
-                <form method="POST">
+                <!-- LOGIN FORM - Posts to backend handler -->
+                <form method="POST" action="../backend/login_handler.php">
                     <div class="form-group">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" name="email" required placeholder="Enter your email">

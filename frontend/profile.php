@@ -1,58 +1,28 @@
 <?php
 /**
- * WEEK 3 - USER PROFILE PAGE
+ * PROFILE PAGE - GATEWAY
  * 
- * This page displays and allows editing of the logged-in user's profile.
- * Shows: name, email
- * Allows updating: name, email, password
- * 
- * Guard: Redirects to login if user is not logged in.
+ * This page displays the user profile form.
+ * Form submissions are handled by backend/profile_handler.php
  */
 
 require '../backend/auth.php';
 require '../backend/user_db.php';
 
 // Check if user is logged in
-// If not, redirect to login page
 if (!isLoggedIn()) {
     header("Location: login.php");
     exit;
 }
 
-// Initialize variables
-$error = '';
-$success = '';
+// Get user data
 $user = getUserById($_SESSION['user_id']);
 
-// Check if form was submitted
-if ($_POST) {
-    // Get form data
-    $name = isset($_POST['name']) ? $_POST['name'] : '';
-    $email = isset($_POST['email']) ? $_POST['email'] : '';
-    $password = isset($_POST['password']) ? $_POST['password'] : '';
-    $confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
-
-    // Validate: name and email must be provided
-    if (empty($name) || empty($email)) {
-        $error = "Name and email are required";
-    }
-    // If password is provided, check that both passwords match
-    elseif (!empty($password) && $password !== $confirm_password) {
-        $error = "Passwords do not match";
-    }
-    else {
-        // Try to update the user
-        if (updateUser($_SESSION['user_id'], $name, $email, $password)) {
-            // Update successful! Refresh user data in session
-            $_SESSION['name'] = $name;
-            $_SESSION['email'] = $email;
-            $user = getUserById($_SESSION['user_id']);
-            $success = "Profile updated successfully!";
-        } else {
-            $error = "Failed to update profile";
-        }
-    }
-}
+// Get success/error messages from session if they exist
+$success = $_SESSION['profile_success'] ?? '';
+$error = $_SESSION['profile_error'] ?? '';
+unset($_SESSION['profile_success']);
+unset($_SESSION['profile_error']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,8 +68,8 @@ if ($_POST) {
                     </div>
                 <?php endif; ?>
 
-                <!-- USER INFO FORM -->
-                <form method="POST">
+                <!-- USER INFO FORM - Posts to backend handler -->
+                <form method="POST" action="../backend/profile_handler.php">
                     <div class="form-group">
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" required value="<?php echo htmlspecialchars($user['name']); ?>">

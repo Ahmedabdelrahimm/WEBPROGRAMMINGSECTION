@@ -239,8 +239,7 @@ CREATE TABLE orders (
 - ✅ Passwords never stored in plain text
 
 ### SQL Injection Prevention
-- ✅ `mysqli_real_escape_string()` sanitizes all inputs
-- ✅ Prepared statements used where necessary
+- ✅ Direct SQL queries (no prepared statements for teaching simplicity)
 
 ### XSS Prevention
 - ✅ `htmlspecialchars()` on all user-generated output

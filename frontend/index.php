@@ -1,13 +1,4 @@
 <?php
-/**
- * WEEK 1 - HOMEPAGE SKELETON
- * 
- * This is the main landing page that users see when they visit the site.
- * It displays the header, hero section, and footer.
- * 
- * Week 4: Will add CSS styling and make it responsive.
- */
-
 require '../backend/auth.php';
 ?>
 <!DOCTYPE html>

@@ -1,14 +1,4 @@
 <?php
-/**
- * WEEK 3 - USER MANAGEMENT
- * 
- * Admin page for managing users:
- * - View all users in a table
- * - Delete user account
- * 
- * Guard: Only admins can access.
- */
-
 require '../backend/auth.php';
 require '../backend/admin_db.php';
 
@@ -62,8 +52,6 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             </nav>
         </div>
     </header>
-
-    <!-- ADMIN LAYOUT -->
     <div class="admin-container">
         <!-- SIDEBAR NAVIGATION -->
         <aside class="admin-sidebar">
