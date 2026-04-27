@@ -1,24 +1,4 @@
-# Demo Project - Teaching Backend Development
 
-A complete, beginner-friendly teaching project for university students learning **PHP**, **MySQL**, and **Web Development**. This project demonstrates core backend concepts using only procedural PHP with no frameworks.
-
----
-
-## 📚 Project Overview
-
-This is a **service e-commerce website** built to teach:
-
-- ✅ Database design and SQL queries
-- ✅ User authentication (login/register with password hashing)
-- ✅ Session management ($_SESSION)
-- ✅ CRUD operations (Create, Read, Update, Delete)
-- ✅ Admin dashboards and role-based access
-- ✅ Form handling and validation
-- ✅ Secure coding practices
-
-**Every line of code is heavily commented** to explain exactly what's happening — perfect for learning.
-
----
 
 ## 📁 Project Structure
 
